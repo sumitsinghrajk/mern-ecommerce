@@ -14,7 +14,7 @@ jobs:
         uses: appleboy/ssh-action@master
 
         with:
-          host: 3.7.253.199
+          host: 43.204.220.230
           username: ec2-user
           key: ${{ secrets.EC2_SSH_KEY }}
 
