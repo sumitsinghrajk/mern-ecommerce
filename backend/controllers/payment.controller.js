@@ -12,9 +12,8 @@ export const createCheckoutSession = async (req, res) => {
 
 		let totalAmount = 0;
 
-		const lineItems = Array.isArray(products)
-	? products.map((product) => {
-			const amount = Math.round(product.price * 100);
+		const lineItems = products.map((product) => {
+			const amount = Math.round(product.price * 100); // stripe wants u to send in the format of cents
 			totalAmount += amount * product.quantity;
 
 			return {
@@ -96,13 +95,11 @@ export const checkoutSuccess = async (req, res) => {
 			const products = JSON.parse(session.metadata.products);
 			const newOrder = new Order({
 				user: session.metadata.userId,
-				products: Array.isArray(products)
-	? products.map((product) => ({
-			product: product.id,
-			quantity: product.quantity,
-			price: product.price,
-	  }))
-	: [],
+				products: products.map((product) => ({
+					product: product.id,
+					quantity: product.quantity,
+					price: product.price,
+				})),
 				totalAmount: session.amount_total / 100, // convert from cents to dollars,
 				stripeSessionId: sessionId,
 			});
