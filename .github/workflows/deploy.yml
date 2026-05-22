@@ -25,4 +25,4 @@ jobs:
             cd /home/ec2-user/mern-ecommerce
             git pull origin main
             docker-compose down
-            docker-compose up -d
+            docker-compose up -d --build
