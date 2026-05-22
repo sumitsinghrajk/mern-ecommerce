@@ -1,0 +1,25 @@
+name: Deploy MERN App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@master
+
+        with:
+          host: 3.7.253.199
+          username: ec2-user
+          key: ${{ secrets.EC2_SSH_KEY }}
+
+          script: |
+            cd /home/ec2-user/mern-ecommerce
+            git pull origin main
+            docker-compose down
+            docker-compose up -d --build
