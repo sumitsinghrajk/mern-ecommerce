@@ -19,7 +19,9 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
 
           script: |
+            ssh-keyscan github.com >> ~/.ssh/known_hosts
             git config --global --add safe.directory /home/ec2-user/mern-ecommerce
+            sudo chown -R ec2-user:ec2-user /home/ec2-user/mern-ecommerce
             cd /home/ec2-user/mern-ecommerce
             git pull origin main
             docker-compose down
